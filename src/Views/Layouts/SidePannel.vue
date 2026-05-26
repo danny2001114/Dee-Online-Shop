@@ -9,6 +9,7 @@ interface MenuItem {
 const route = useRouter();
 const menuList: MenuItem[] = [
   { title: "Dashboard", route: 'dashboard' },
+  { title: "User", route: 'user.list' },
 ];
 </script>
 <template>

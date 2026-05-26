@@ -11,19 +11,20 @@ const loading = useLoading();
 </script>
 
 <template>
-  <Loading v-if="loading.isLoading" />
-  <el-container v-else>
-    <main class="min-h-screen w-100" v-if="route.name === 'login'">
-      <RouterView />
-    </main>
+    <Loading v-if="loading.isLoading" />
     <template v-else>
-      <SidePannel />
-      <el-container>
+      <main class="min-h-screen w-100" v-if="route.name === 'login'">
+        <RouterView />
+      </main>
+  
+      <template v-else>
         <Header />
-        <el-main>
-          <RouterView />
-        </el-main>
-      </el-container>
+        <el-container>
+          <SidePannel />
+          <el-main>
+            <RouterView />
+          </el-main>
+        </el-container>
+      </template>
     </template>
-  </el-container>
 </template>

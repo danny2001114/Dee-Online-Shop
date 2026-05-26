@@ -3,6 +3,9 @@ import { createApp } from 'vue'
 import App from './Views/Layouts/App.vue'
 import router from './router'
 
+// directives
+import resizeDirective from '@/App/directives/resizeDirective'
+
 // providers
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
@@ -16,6 +19,9 @@ import '@/assets/css/style.css'
 
 // ======================= create app ======================= //
 const app = createApp(App);
+
+// directives
+app.directive('resize', resizeDirective);
 
 // global
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

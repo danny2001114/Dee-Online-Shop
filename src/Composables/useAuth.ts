@@ -1,31 +1,72 @@
-import { signInWithEmailAndPassword, signOut } from "firebase/auth"
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    updateEmail,
+    updatePassword,
+    updateProfile,
+    type User
+} from "firebase/auth"
 import { auth } from "@/App/firebase"
-import { ElMessage } from "element-plus";
-import type { Router } from "vue-router";
-import type {  LoginForm } from "@/Models/AuthModel";
+import useUser from "./useUser";
+import type { AuthLogin, AuthCreateForm, AuthUpdateForm } from "@/Models/UserModel";
+import dayjs from "dayjs";
+import { useExcepetion } from "@/Utilities/helpers";
 
 export default {
-    async login(credential: LoginForm, router: Router) {
-        await signInWithEmailAndPassword(
-            auth, 
-            credential.email, 
+    async login(credential: AuthLogin) {
+        return await signInWithEmailAndPassword(
+            auth,
+            credential.email,
             credential.password
-        )
-        .then(() => {
-            router.push({name: "dashboard"});
-        })
-        .catch(() => {
-            ElMessage.error("User Not Found!");
-        });
+        );
     },
 
-    async logout(router: Router) {
-        await signOut(auth)
-        .then(() => {
-            router.push({name: "login"});
-        })
-        .catch(() => {
-            ElMessage.error("Failed To Logout!");
+    async logout() {
+        return await signOut(auth);
+    },
+
+    async createAuth(form: AuthCreateForm) {
+        await createUserWithEmailAndPassword(auth, form.email, form.password)
+            .then(async (credential) => {
+                const user = credential.user;
+                await this.updateProfile(user, form);
+                await useUser.create(user.uid, {
+                    username: form.username,
+                    email: form.email,
+                    avatar: form.avatar,
+                    created_at: dayjs().format('YYYY-MM-DD HH:mm:ss')
+                });
+            });
+    },
+
+    async updateAuth(form: AuthUpdateForm) {
+
+        const currentUser = auth.currentUser;
+
+        if (currentUser) {
+            await updateEmail(currentUser, form.email);
+
+            if (form.password) {
+                await updatePassword(currentUser, form.password);
+            }
+
+            await this.updateProfile(currentUser, form);
+            await useUser.update(currentUser.uid, {
+                username: form.username,
+                email: form.email,
+                avatar: form.avatar,
+                updated_at: dayjs().format('YYYY-MM-DD HH:mm:ss')
+            });
+        } else {
+            useExcepetion("Unauthenticated!", 401);
+        }
+    },
+
+    async updateProfile(user: User, form: AuthCreateForm | AuthUpdateForm) {
+        await updateProfile(user, {
+            displayName: form.username,
+            photoURL: form.avatar
         });
-    }
+    },
 }

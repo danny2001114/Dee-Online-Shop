@@ -43,7 +43,33 @@ const router = createRouter({
       name: 'profile.edit',
       component: () => import('@/Views/User/Form.vue'),
       meta: {auth: true}
-    }
+    },
+
+    // product
+    {
+      path: '/product',
+      name: 'product.list',
+      component: () => import('@/Views/Product/Index.vue'),
+      meta: {auth: true}
+    },
+    {
+      path: '/product/create',
+      name: 'product.create',
+      component: () => import('@/Views/Product/Form.vue'),
+      meta: {auth: true}
+    },
+    {
+      path: '/product/:id/edit',
+      name: 'product.edit',
+      component: () => import('@/Views/Product/Form.vue'),
+      meta: {auth: true}
+    },
+    {
+      path: '/product/:id',
+      name: 'product.detail',
+      component: () => import('@/Views/Product/Detail.vue'),
+      meta: {auth: true}
+    },
   ],
 })
 

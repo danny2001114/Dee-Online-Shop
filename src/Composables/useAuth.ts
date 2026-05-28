@@ -11,7 +11,7 @@ import { auth } from "@/App/firebase"
 import useUser from "./useUser";
 import type { AuthLogin, AuthCreateForm, AuthUpdateForm } from "@/Models/UserModel";
 import dayjs from "dayjs";
-import { useExcepetion } from "@/Utilities/helpers";
+import { useException } from "@/Utilities/helpers";
 
 export default {
     async login(credential: AuthLogin) {
@@ -59,7 +59,7 @@ export default {
                 updated_at: dayjs().format('YYYY-MM-DD HH:mm:ss')
             });
         } else {
-            useExcepetion("Unauthenticated!", 401);
+            useException("Unauthenticated!", 401);
         }
     },
 

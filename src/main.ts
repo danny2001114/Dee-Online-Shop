@@ -4,7 +4,7 @@ import App from './Views/Layouts/App.vue'
 import router from './router'
 
 // directives
-import resizeDirective from '@/App/directives/resizeDirective'
+import adjustSizeDirective from '@/App/directives/adjustSizeDirective.ts'
 
 // providers
 import { createPinia } from 'pinia'
@@ -21,7 +21,7 @@ import '@/assets/css/style.css'
 const app = createApp(App);
 
 // directives
-app.directive('resize', resizeDirective);
+app.directive('adjust-size', adjustSizeDirective);
 
 // global
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

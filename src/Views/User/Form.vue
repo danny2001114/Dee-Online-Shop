@@ -72,7 +72,7 @@ const update = async () => {
     <el-row :gutter="10">
       <el-col :span="5">
         <el-card class="w-100">
-          <el-row :gutter="10" v-resize:height="'.avatar'">
+          <el-row :gutter="10" v-adjust-size:height="'.avatar'">
             <el-col class="text-center content-center min-h-md avatar" :span="6"  v-for="(url, index) in avatars" :key="index">
               <el-avatar :size="form.avatar === url ? 'large' : ''" :src="url" @click="selectAvatar(url as string)" />
             </el-col>

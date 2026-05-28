@@ -1,12 +1,13 @@
-import { getCurrentUser, useCurrentUser, useIsCurrentUserLoaded } from 'vuefire'
-import { useExcepetion } from '@/Utilities/helpers';
+import { getCurrentUser } from 'vuefire'
+import { useException } from '@/Utilities/helpers';
 
-export default async () => {
+export default async () => 
+{
         await getCurrentUser()
         .then((user) => {
-            if (!user) useExcepetion("Unauthenticated!", 401);
+            if (!user) useException("Unauthenticated!", 401);
         })
         .catch(err => {
-            useExcepetion(err, 401);
+            useException(err, 401);
         });
 }

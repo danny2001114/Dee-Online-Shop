@@ -7,9 +7,9 @@ import router from './router'
 import adjustSizeDirective from '@/App/directives/adjustSizeDirective.ts'
 
 // providers
-import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import { createPinia } from 'pinia'
 import { VueFire, VueFireAuth } from 'vuefire'
 import { firebaseApp } from '@/App/firebase'
 

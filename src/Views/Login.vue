@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import useAuth from '@/Composables/UserService';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import useAuth from '@/Composables/useAuth';
 import type { AuthLogin } from '@/Models/UserModel';
-import { ElMessage } from 'element-plus';
 
 const router = useRouter();
 const form = reactive<AuthLogin>({
@@ -15,9 +14,6 @@ const login = async () => {
   await useAuth.login(form)
   .then(() => {
     router.push({ name: "dashboard" });
-  })
-  .catch(() => {
-    ElMessage.error("User Not Found!");
   });
 }
 </script>

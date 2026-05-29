@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import useUser from "@/Composables/useUser";
+import UserService from "@/Composables/UserService";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const users = useUser.list();
+const users = UserService.getList();
 
 </script>
 <template>

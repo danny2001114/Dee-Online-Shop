@@ -12,6 +12,9 @@
   --h-sm: 300px;
   --h-md: 600px;
   --h-lg: 1200px;
+  --border-sm: .5px;
+  --border-md: 1px;
+  --border-lg: 3px;
 }
 
 * {padding: 0; margin: 0; box-sizing: border-box;}
@@ -21,18 +24,12 @@ ul {list-style: none;}
 input {font-size: inherit;}
 
 /* override */
-.card {
-  margin-bottom: 20px;
-}
-
-.card .el-card__header {
-  display: flex;
-  font-weight: bold;
-}
-
-.card .el-card__header .el-icon {
-  margin-left: auto;
-}
+.card {margin-bottom: 20px;}
+.card .el-card__header {display: flex;font-weight: bold;}
+.card .el-card__header .el-icon {margin-left: auto;}
+.el-select__wrapper {min-width: 100px;}
+.el-select__wrapper.option {width: 100px;}
+.el-card.overflow-x-hide .el-card__body {overflow-x: hidden;}
 
 /* utilities */
 .title-sm {font-size: var(--fs-sm);font-weight: bold}
@@ -173,6 +170,7 @@ input {font-size: inherit;}
 .ratio-75 {aspect-ratio: 2 / 3;}
 .ratio-100 {aspect-ratio: 1 / 1;}
 
+.max-w-auto {max-width: auto;}
 .max-w-sm {max-width: var(--w-sm);}
 .max-w-md {max-width: var(--w-md);}
 .max-w-lg {max-width: var(--w-lg);}
@@ -187,6 +185,7 @@ input {font-size: inherit;}
 .max-w-half-screen {max-width: 50vh}
 .max-w-double-screen {max-width: 200vh;}
 
+.min-w-auto {min-width: auto;}
 .min-w-sm {min-width: var(--w-sm);}
 .min-w-md {min-width: var(--w-md);}
 .min-w-lg {min-width: var(--w-lg);}
@@ -201,6 +200,7 @@ input {font-size: inherit;}
 .min-w-half-screen {min-width: 50vw}
 .min-w-double-screen {min-width: 200vw;}
 
+.max-h-auto {max-height: auto;}
 .max-h-sm {max-height: var(--h-sm);}
 .max-h-md {max-height: var(--h-md);}
 .max-h-lg {max-height: var(--h-lg);}
@@ -215,6 +215,7 @@ input {font-size: inherit;}
 .max-h-half-screen {max-height: 50vh}
 .max-h-double-screen {max-height: 200vh;}
 
+.min-h-auto {min-width: auto;}
 .min-h-sm {min-height: var(--h-sm);}
 .min-h-md {min-height: var(--h-md);}
 .min-h-lg {min-height: var(--h-lg);}
@@ -229,10 +230,12 @@ input {font-size: inherit;}
 .min-h-75 {min-height: 75%;}
 .min-h-100 {min-height: 100%;}
 
+.w-auto {width: auto;}
 .w-sm {width: var(--w-sm);}
 .w-md {width: var(--w-md);}
 .w-lg {width: var(--w-lg);}
 
+.w-0 {width: 0;}
 .w-25 {width: 25%;}
 .w-50 {width: 50%;}
 .w-75 {width: 75%;}
@@ -243,10 +246,12 @@ input {font-size: inherit;}
 .w-half-screen {width: 50vh}
 .w-double-screen {width: 200vh;}
 
+.h-auto {height: auto;}
 .h-sm {height: var(--h-sm);}
 .h-md {height: var(--h-md);}
 .h-lg {height: var(--h-lg);}
 
+.h-0 {height: 0;}
 .h-25 {height: 25%;}
 .h-50 {height: 50%;}
 .h-75 {height: 75%;}
@@ -257,6 +262,9 @@ input {font-size: inherit;}
 .max-h-half-screen {height: 50vh}
 .max-h-double-screen {height: 200vh;}
 
+.inherit-all-w * {width: inherit;}
+.inherit-all-h * {height: inherit;}
+
 .shadow,.shadow-primary {box-shadow: 0 0 .5rem rgb(var(--el-color-primary-rgb));}
 .shadow-success {box-shadow: 0 0 .5rem rgb(var(--el-color-success-rgb));}
 .shadow-warning {box-shadow: 0 0 .5rem rgb(var(--el-color-warning-rgb));}
@@ -265,3 +273,52 @@ input {font-size: inherit;}
 .hv-cursor {cursor: pointer;}
 .hv-progress {cursor: progress;}
 .hv-none {pointer-events: none;}
+
+.border-sm, .border-md, .border-lg {border: var(--border-md) solid var(--el-border-color-light)}
+
+.border-sm {border-width: var(--border-sm)}
+.border-md {border-width: var(--border-md)}
+.border-lg {border-width: var(--border-lg)}
+
+.border-dash {border-style: dashed;}
+.border-dot {border-style: dotted;}
+.border-double {border-style: double;}
+.border-groove {border-style: groove;}
+.border-hidden {border-style: hidden;}
+.border-inset {border-style: inset;}
+.border-none {border-style: none;}
+.border-outset {border-style: outset;}
+.border-ridge {border-style: ridge;}
+.border-solid {border-style: solid;}
+
+.pos-relative {position: relative;}
+.pos-absolute {position: absolute; transform: translate(-50%, -50%);}
+.pos-fixed {position: fixed;}
+.pos-sticky {position: sticky;}
+
+.pos-t-0 {top: 0;}
+.pos-t-25 {top: 25%;}
+.pos-t-50 {top: 50%;}
+.pos-t-100 {top: 100%;}
+
+.pos-b-0 {bottom: 0;}
+.pos-b-25 {bottom: 25%;}
+.pos-b-50 {bottom: 50%;}
+.pos-b-50 {bottom: 100%;}
+
+.pos-l-0 {left: 0;}
+.pos-l-25 {left: 25%;}
+.pos-l-50 {left: 50%;}
+.pos-l-100 {left: 100%;}
+
+.pos-r-0 {right: 0;}
+.pos-r-25 {right: 25%;}
+.pos-r-50 {right: 50%;}
+.pos-r-100 {right: 100%;}
+
+.overflow-y-hide {overflow-y: hidden;}
+.overflow-y-scroll {overflow-y: scroll;}
+.overflow-y-auto {overflow-y: auto;}
+.overflow-x-hide {overflow-x: hidden;}
+.overflow-x-scroll {overflow-x: scroll;}
+.overflow-x-auto {overflow-x: auto;}

@@ -1,6 +1,9 @@
 import type { Directive } from 'vue'
 
-function adjustSize(children: NodeListOf<HTMLElement>, sizes: number[], target: "width" | "height") {
+function adjustSize(
+  children: NodeListOf<HTMLElement>, 
+  sizes: number[], target: "width" | "height"
+) {
     const maxSize = Math.max(...sizes);
 
     children.forEach((el) => {
@@ -18,7 +21,6 @@ const directive : Directive = {
         adjustSize(children, sizes, "width");
         break;
       case "height":
-        console.log(binding.value);
         var sizes = Array.from(children).map((el) => el.offsetHeight);
         adjustSize(children, sizes, "height");
         break;

@@ -10,6 +10,7 @@ const route = useRouter();
 const menuList: MenuItem[] = [
   { title: "Dashboard", route: 'dashboard' },
   { title: "User", route: 'user.list' },
+  { title: "Product", route: 'product.list' },
 ];
 </script>
 <template>

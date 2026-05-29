@@ -1,13 +1,12 @@
 <script setup lang="ts">
+import UserService from '@/Composables/UserService';
 import { reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import useAuth from '@/Composables/useAuth';
-import type { AuthCreateForm } from '@/Models/UserModel';
-import { ElMessage } from 'element-plus';
 import { useCurrentUser } from 'vuefire';
+import type { AuthForm } from '@/Models/UserModel';
 
+const isEdit = useRoute().name == "profile.edit";
 const router = useRouter();
-const isEdit = useRoute().params.username ?? null;
 const currentUser = useCurrentUser();
 
 const getAllAvatars = import.meta.glob('@/assets/img/avatars/*.{png,jpg,jpeg}', {
@@ -17,54 +16,38 @@ const getAllAvatars = import.meta.glob('@/assets/img/avatars/*.{png,jpg,jpeg}', 
 
 const avatars = Object.values(getAllAvatars).map((url) => location.origin + url);
 
-const form = reactive<AuthCreateForm>({
+const form = reactive<AuthForm>({
   username: "",
   password: "",
   email: "",
   avatar: avatars[0] as string,
 });
 
-const selectAvatar = (url: string) => {
-  form.avatar = url;
-}
-
-const create = async () => {
-  try {
-    await useAuth.createAuth(form);
-    router.push({name: 'user.list'});
-
-    ElMessage.success("Created User Successfully!");
-  } 
-  catch (err) {
-    console.error(err);
-    ElMessage.error("Failed To Create User!");
-  }
-}
-
 if (isEdit) {
   watch(currentUser, (user) => {
     if (!user) return;
 
     Object.assign(form, {
-      username: user.displayName ?? "",
-      email: user.email ?? "",
-      avatar: user.photoURL ?? ""
-    });
+      username: user.displayName as string,
+      email: user.email as string,
+      avatar: user.photoURL as string
+    } as AuthForm);
 
   }, { immediate: true });
 }
 
-const update = async () => {
-  try {
-    await useAuth.updateAuth(form);
-    router.back();
+const create = async () => {
+  await UserService.createAuth(form)
+    .then(() => {
+      router.push({ name: 'user.list' });
+    });
+}
 
-    ElMessage.success("Updated Profile Successfully!");
-  }
-  catch (err) {
-    console.error(err);
-    ElMessage.error("Failed To Update Profile!");
-  }
+const update = async () => {
+  await UserService.updateAuth(form)
+    .then(() => {
+      router.back();
+    });
 }
 </script>
 <template>
@@ -72,16 +55,18 @@ const update = async () => {
     <el-row :gutter="10">
       <el-col :span="5">
         <el-card class="w-100">
-          <el-row :gutter="10" v-resize:height="'.avatar'">
-            <el-col class="text-center content-center min-h-md avatar" :span="6"  v-for="(url, index) in avatars" :key="index">
-              <el-avatar :size="form.avatar === url ? 'large' : ''" :src="url" @click="selectAvatar(url as string)" />
+          <el-row :gutter="10" v-adjust-size:height="'.avatar'">
+            <el-col class="text-center content-center min-h-md avatar" :span="6" v-for="(url, index) in avatars"
+              :key="index">
+              <el-avatar :size="form.avatar === url ? 'large' : ''" :src="url" @click="form.avatar = url" />
             </el-col>
           </el-row>
         </el-card>
       </el-col>
       <el-col :span="19">
         <el-card class="max-w-md">
-          <el-alert class="mb-md" title="Create New User And Sing In" type="primary" show-icon :closable="false" />
+          <el-alert class="mb-md" title="Create New User And Sing In" type="primary" show-icon :closable="false"
+            v-if="!isEdit" />
           <el-form-item class="max-w-md" label="User Name">
             <el-input v-model="form.username" clearable />
           </el-form-item>

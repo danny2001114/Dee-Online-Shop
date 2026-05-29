@@ -3,17 +3,10 @@ export interface AuthLogin {
     password: string
 }
 
-export interface AuthCreateForm {
+export interface AuthForm {
     username: string
     email: string
     password: string
-    avatar: string
-}
-
-export interface AuthUpdateForm {
-    username: string
-    email: string
-    password?: string
     avatar: string
 }
 

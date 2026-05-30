@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useParsePrice, useFormatPrice } from '@/Utilities/helpers';
 import UploadImage from '@/Components/UploadImage.vue';
 import ProductService from '@/Composables/ProductService';
+import { reactive, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useParsePrice, useFormatPrice } from '@/Utilities/helpers';
 import type { ProductForm } from '@/Models/ProductModel';
 
 const id = useRoute().params.id as string;
@@ -12,38 +12,46 @@ const product = id ? ProductService.getDetail(id) : null;
 
 const form = reactive<ProductForm>({
   name: "",
-  price: 0,
+  price: "",
   imageUrl: "",
-  prevImgUrl: "",
   uploadFile: null,
   remark: ""
 });
+const prevImgUrl = ref('');
+const isLoaded = ref(false);
 
 if (product) {
   watch(product, (product) => {
     if (!product) return;
 
+    prevImgUrl.value = product.imageUrl;
+
     Object.assign<ProductForm, ProductForm>(form, {
       name: product.name,
-      price: product.price,
-      imageUrl: "",
-      prevImgUrl: product.imageUrl,
+      price: String(product.price),
+      imageUrl: product.imageUrl,
       remark: product.remark,
     });
+
+    isLoaded.value = true;
   }, { immediate: true });
 }
 
-// const validateImage: UploadProps['beforeUpload'] = (file) => {
-//   if (['image/jpeg', 'image/png'].includes(file.type)) {
-//     ElMessage.error('Avatar picture must be JPG or PNG format!')
-//     return false
-//   } 
-// else if (file.size / 1024 / 1024 > 2) {
-//   ElMessage.error('Avatar picture size can not exceed 2MB!')
-//   return false
-// }
-//   return true
-// }
+const create = async () => {
+  await ProductService.createProduct(form)
+    .then(() => {
+      router.push({ name: 'product.list' });
+    });
+}
+
+const update = async () => {
+  if (!isLoaded.value) return;
+
+  await ProductService.updateProduct(id, form, prevImgUrl.value)
+    .then(() => {
+      router.push({ name: 'product.detail', params: { id } });
+    });
+}
 </script>
 <template>
   <div class="mb-md">
@@ -52,8 +60,8 @@ if (product) {
   <el-form :model="form" label-width="auto">
     <el-row :gutter="10">
       <el-col :span="5">
-        <el-card class="overflow-x-hide">
-          <UploadImage v-model:upload="form.uploadFile" />
+        <el-card class="overflow-x-hide pos-relative">
+          <UploadImage v-model:upload="form.uploadFile" v-model:imageUrl="form.imageUrl" />
         </el-card>
       </el-col>
       <el-col :span="19">
@@ -62,7 +70,7 @@ if (product) {
             <el-input v-model="form.name" />
           </el-form-item>
           <el-form-item label="Price">
-            <el-input v-model="form.price" type="text" inputmode="decimal" :formatter="useFormatPrice"
+            <el-input v-model="form.price" type="text" inputmode="decimal" maxlength="7" :formatter="useFormatPrice"
               :parser="useParsePrice">
               <template #suffix> MMK</template>
             </el-input>
@@ -72,9 +80,8 @@ if (product) {
               placeholder="Please input" />
           </el-form-item>
           <div class="d-flex flex-center">
-            <el-button class="min-w-50" type="primary" @click="ProductService.updateProduct(id, form, form.prevImgUrl)"
-              v-if="id">Update</el-button>
-            <el-button class="min-w-50" type="primary" @click="ProductService.createProduct(form)" v-else>Add</el-button>
+            <el-button class="min-w-50" type="primary" @click="update" v-if="id">Update</el-button>
+            <el-button class="min-w-50" type="primary" @click="create" v-else>Add</el-button>
           </div>
         </el-card>
       </el-col>

@@ -8,9 +8,8 @@ export interface ProductModel {
 
 export interface ProductForm {
     name: string
-    price: number
+    price: string | number
     imageUrl: string
-    prevImgUrl?: string
     uploadFile?: File | null
     remark: string
     created_at?: string

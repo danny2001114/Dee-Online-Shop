@@ -26,8 +26,8 @@ export function useConfig(key: string, def: any = null) {
     return constant;
 }
 
-export function useFormatPrice(value: string): string {
-    if (!value) return '';
+export function useFormatPrice(value: string | number): string {
+    if (value === undefined || value === null || value === '') return '';
 
     const [integer, decimal] = `${value}`.split('.');
 
@@ -38,7 +38,8 @@ export function useFormatPrice(value: string): string {
         : formatted as string;
 }
 
-export function useParsePrice(value: string): number {
-    const numeric = Number(String(value).replace(/,/g, '').trim())
-    return Number.isNaN(numeric) ? 0 : numeric
+export function useParsePrice(value: string): string {
+    const numeric = String(value).replace(/,/g, '').trim();
+    return numeric;
 }
+

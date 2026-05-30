@@ -18,5 +18,6 @@ export default Object.freeze({
         6: "VND",
         7: "KRW",
         8: "GBP"
-    }
+    },
+    MAX_USER: import.meta.env.VITE_MAX_USERS,
 });

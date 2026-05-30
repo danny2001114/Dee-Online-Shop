@@ -10,6 +10,7 @@ interface ImportMetaEnv {
     readonly VITE_STORAGE_HOST: string
     readonly VITE_STORAGE_PORT: number
     readonly VITE_STORAGE_BUCKET: string
+    readonly VITE_MAX_USERS: number
 }
 
 interface ImportMeta {

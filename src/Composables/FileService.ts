@@ -1,46 +1,43 @@
-import { storage } from "@/App/firebase";
-import {
-    uploadBytes,
-    ref as storageRef,
-    deleteObject,
-    getDownloadURL,
-    type StorageReference
-} from "firebase/storage";
-import { useStorageFileUrl } from "vuefire";
+import { supabase } from "@/App/supabase";
 
 export default class FileService {
-    static getUrl(path: string) {
-        return useStorageFileUrl(this.#getStorageRef(path));
+    static async getUrl(path: string) {
+        const { data } = await this.#getStorage()
+            .getPublicUrl(path);
+
+        return data;
     }
 
     static async uploadFile(fileName: string, file?: File | null) {
         if (!file) throw Error("Required Upload File To Update File!");
 
-        const fileRef = this.#getStorageRef(fileName);
-        await uploadBytes(fileRef, file);
+        const { error } = await this.#getStorage()
+            .upload(fileName, file, { upsert: true });
 
-        return await getDownloadURL(fileRef);
+        if (error) {
+            throw error;
+        }
+
+        return this.getUrl(fileName);
     }
 
     static async deleteFile(fileName: string) {
-        const fileRef = this.#getStorageRef(fileName);
+        const { error } = await this.#getStorage()
+            .remove([fileName]);
 
-        if (!this.getUrl(fileName)) {
-            console.warn("There Is No File Uploaded For That URL!");
-            return;
+        if (error && error.status !== 404) {
+            throw error;
         }
-
-        await deleteObject(fileRef);
     }
 
     static async replaceFile(fileName: string, file?: File | null) {
         if (!file) throw Error("Required Upload File To Update File!");
 
-        await this.deleteFile(fileName);
-        await this.uploadFile(fileName, file);
+        await this.deleteFile(fileName).catch(() => { });
+        return this.uploadFile(fileName, file);
     }
 
-    static determineState(imageUrl: string, prevImgUrl: string, uploadFile?: File | null ) {
+    static determineState(imageUrl: string, prevImgUrl: string, uploadFile?: File | null) {
         if (uploadFile) {
             return prevImgUrl ? "change" : "add";
         }
@@ -52,7 +49,7 @@ export default class FileService {
         return "unchanged";
     }
 
-    static #getStorageRef(path: string): StorageReference {
-        return storageRef(storage, path);
+    static #getStorage() {
+        return supabase.storage.from(import.meta.env.VITE_SUPABASE_BUCKET);
     }
 }

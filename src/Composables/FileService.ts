@@ -9,13 +9,7 @@ export default class FileService {
             return publicUrl;
         }
 
-        const { data: signedData, error: signedError } = await this.#getStorage().createSignedUrl(path, 60);
-
-        if (signedError) {
-            throw signedError;
-        }
-
-        return signedData.signedUrl;
+        throw new Error("Supabase storage bucket must be public to return a non-expiring image URL.");
     }
 
     static async uploadFile(fileName: string, file?: File | null) {

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import UserService from '@/Composables/UserService';
-import { reactive, watch } from 'vue';
+import { onBeforeMount, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCurrentUser } from 'vuefire';
 import type { AuthForm } from '@/Models/UserModel';
+import { useConfig } from '@/Utilities/helpers';
+import { ElMessage } from 'element-plus';
 
 const isEdit = useRoute().name == "profile.edit";
 const router = useRouter();
@@ -49,6 +51,21 @@ const update = async () => {
       router.back();
     });
 }
+
+onBeforeMount(async () => {
+  await UserService.CountUsers()
+    .then(total => {
+      if (total >= useConfig("MAX_USER", 0)) {
+        router.push({ name: "user.list" });
+        ElMessage.error("Max User Limit Exceeded!");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      router.push({ name: "user.list" });
+      ElMessage.error("Failed To Check User Count!");
+    });
+});
 </script>
 <template>
   <el-form :model="form" label-width="auto">

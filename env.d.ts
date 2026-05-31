@@ -7,9 +7,9 @@ interface ImportMetaEnv {
     readonly VITE_FIRESTORE_HOST: string
     readonly VITE_FIRESTORE_PORT: number
     readonly VITE_AUTH_HOST: string
-    readonly VITE_STORAGE_HOST: string
-    readonly VITE_STORAGE_PORT: number
-    readonly VITE_STORAGE_BUCKET: string
+    readonly VITE_SUPABASE_URL: string
+    readonly VITE_SUPABASE_ANON_KEY: string
+    readonly VITE_SUPABASE_BUCKET: string
     readonly VITE_MAX_USERS: number
 }
 

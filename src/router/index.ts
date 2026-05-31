@@ -93,15 +93,16 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   useLoading().start();
 
-  for (const alias of to.meta.middlewares as [] ?? []) {
+  for (const alias of (to.meta.middlewares as string[] | undefined) ?? []) {
     try {
-
-      middlewares[alias]?.call(this);
-
+      await middlewares[alias]?.call(this);
     } catch (error) {
-      const err = error as Exception;
+      const err = error as Exception | undefined;
 
-      if (err.code) return { name: "login" }
+      if (err?.code === 401) {
+        return { name: "login" };
+      }
+
       break;
     }
   }

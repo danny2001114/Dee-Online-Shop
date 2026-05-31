@@ -15,6 +15,7 @@ import { ElMessage } from "element-plus"
 import { 
     collection, 
     doc, 
+    getCountFromServer, 
     setDoc, 
     updateDoc 
 } from "firebase/firestore"
@@ -58,6 +59,13 @@ export default class UserService {
 
     static getDetail(id: string) {
         return useDocument<UserModel>(this.#getDoc(id));
+    }
+
+    static async CountUsers() {
+        return await getCountFromServer(this.#getCollection())
+        .then((res) => {
+            return res.data().count;
+        });
     }
 
     static async createAuth(form: AuthForm) {

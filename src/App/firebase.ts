@@ -1,11 +1,11 @@
-import { initializeApp, type FirebaseOptions  } from "firebase/app";
+import { initializeApp, type FirebaseOptions } from "firebase/app";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { connectStorageEmulator, getStorage } from "firebase/storage";
 
 const env = import.meta.env;
 
-const config: FirebaseOptions  = {
+const config: FirebaseOptions = {
     apiKey: env.VITE_FIREBASE_API_KEY,
     authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
     projectId: env.VITE_FIREBASE_PROJECT_ID,

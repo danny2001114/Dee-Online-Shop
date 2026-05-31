@@ -10,6 +10,9 @@ interface ImportMetaEnv {
     readonly VITE_STORAGE_HOST: string
     readonly VITE_STORAGE_PORT: number
     readonly VITE_STORAGE_BUCKET: string
+    readonly VITE_FIREBASE_SENDER_ID: string
+    readonly VITE_FIREBASE_APP_ID: string
+    readonly VITE_FIREBASE_MEASUREMENT_ID: string
 }
 
 interface ImportMeta {

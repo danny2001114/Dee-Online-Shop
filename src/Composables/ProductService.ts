@@ -53,8 +53,7 @@ export default class ProductService {
             }
 
             if (form.uploadFile) {
-                const { publicUrl } = await FileService.uploadFile(storagePath, form.uploadFile);
-                form.imageUrl = publicUrl;
+                form.imageUrl = await FileService.uploadFile(storagePath, form.uploadFile);
             }
 
             await updateDoc(this.#getDoc(id), {

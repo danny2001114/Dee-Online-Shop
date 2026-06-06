@@ -20,4 +20,10 @@ export default Object.freeze({
         8: "GBP"
     },
     MAX_USER: import.meta.env.VITE_MAX_USERS,
+    RESPONSIVE: {
+        XLARGE: 1920,
+        LARGE: 1200,
+        MID: 992,
+        SMALL: 768
+    }
 });

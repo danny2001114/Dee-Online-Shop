@@ -2,10 +2,20 @@ import { supabase } from "@/App/supabase";
 
 export default class FileService {
     static async getUrl(path: string) {
-        const { data } = await this.#getStorage()
-            .getPublicUrl(path);
+        const result = await this.#getStorage().getPublicUrl(path);
+        const publicUrl = result?.data?.publicUrl;
 
-        return data;
+        if (publicUrl) {
+            return publicUrl;
+        }
+
+        const { data: signedData, error: signedError } = await this.#getStorage().createSignedUrl(path, 60);
+
+        if (signedError) {
+            throw signedError;
+        }
+
+        return signedData.signedUrl;
     }
 
     static async uploadFile(fileName: string, file?: File | null) {

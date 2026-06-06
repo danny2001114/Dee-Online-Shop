@@ -17,6 +17,11 @@ const login = async () => {
   });
 }
 </script>
+<style>
+.background {
+  background: url('../assets/img/background.jpg') no-repeat center center;
+}
+</style>
 <template>
   <div class="min-h-screen d-grid grid-center">
     <el-card class="max-w-md mb-lg">

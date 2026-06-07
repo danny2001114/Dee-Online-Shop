@@ -56,3 +56,8 @@ export function useResponsive(width: number, operator: ResponsiveOperators = "<"
     }
 }
 
+export function useStrNormalize(string: string): string {
+    const captalStr = string[0] + (string.length > 2 ? string.slice(1) : "");
+    return captalStr;
+}
+

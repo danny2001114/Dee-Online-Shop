@@ -15,7 +15,6 @@ const loading = useLoading();
 <template>
   <Loading v-if="loading.isLoading" />
   <template v-else>
-
     <el-container class="w-100" v-if="route.name === 'login'">
       <main class="w-100">
         <RouterView />
@@ -28,10 +27,11 @@ const loading = useLoading();
         <SidePannel />
         <el-main class="p-ver-sm">
           <RouterView />
-          <BottomMenu />
         </el-main>
       </el-container>
+      <div class="h-sm d-xs-block d-none"></div>
     </template>
-
+    
   </template>
+  <BottomMenu v-if="route.name !== 'login'" />
 </template>

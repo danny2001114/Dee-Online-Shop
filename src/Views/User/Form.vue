@@ -6,23 +6,25 @@ import { useCurrentUser } from 'vuefire';
 import type { AuthForm } from '@/Models/UserModel';
 import { useConfig } from '@/Utilities/helpers';
 import { ElMessage } from 'element-plus';
+import AvatarList from '@/Components/AvatarList.vue';
 
 const isEdit = useRoute().name == "profile.edit";
 const router = useRouter();
 const currentUser = useCurrentUser();
 
-const getAllAvatars = import.meta.glob('@/assets/img/avatars/*.{png,jpg,jpeg}', {
-  eager: true,
-  import: 'default'
-});
+// const getAllAvatars = import.meta.glob('@/assets/img/avatars/*.{png,jpg,jpeg}', {
+//   eager: true,
+//   import: 'default'
+// });
 
-const avatars = Object.values(getAllAvatars).map((url) => location.origin + url);
+// const avatars = Object.values(getAllAvatars).map((url) => location.origin + url);
 
 const form = reactive<AuthForm>({
   username: "",
   password: "",
   email: "",
-  avatar: avatars[0] as string,
+  // avatar: avatars[0] as string,
+  avatar: "",
 });
 
 if (isEdit) {
@@ -70,17 +72,12 @@ onBeforeMount(async () => {
 <template>
   <el-form :model="form" label-width="auto">
     <el-row :gutter="10">
-      <el-col :span="5">
+      <el-col class="card" :xs="24" :sm="24" :md="8" :span="8">
         <el-card class="w-100">
-          <el-row :gutter="10" v-adjust-size:height="'.avatar'">
-            <el-col class="text-center content-center min-h-md avatar" :span="6" v-for="(url, index) in avatars"
-              :key="index">
-              <el-avatar :size="form.avatar === url ? 'large' : ''" :src="url" @click="form.avatar = url" />
-            </el-col>
-          </el-row>
+          <AvatarList v-model:avatar="form.avatar" />
         </el-card>
       </el-col>
-      <el-col :span="19">
+      <el-col :xs="24" :sm="24" :md="16" :span="16">
         <el-card class="max-w-md">
           <el-alert class="mb-md" title="Create New User And Sing In" type="primary" show-icon :closable="false"
             v-if="!isEdit" />

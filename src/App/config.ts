@@ -25,5 +25,10 @@ export default Object.freeze({
         LARGE: 1200,
         MID: 992,
         SMALL: 768
-    }
+    },
+    MENU_LIST: [
+        { title: "Dashboard", route: 'dashboard', icon: "HomeFilled" },
+        { title: "User", route: 'user.list', icon: "UserFilled" },
+        { title: "Product", route: 'product.list', icon: "GoodsFilled" }
+    ]
 });

@@ -22,19 +22,15 @@ const logout = () => {
 }
 
 const editProfile = () => {
-  router.push({ name: "profile.edit", params: { username: currentUser.value?.displayName } })
+  router.push({ name: "profile.edit" })
 }
 </script>
 <template>
   <el-header class="d-flex flex-ver-center flex-hor-end g-md">
+    <div id="mobile-nav-menu" class="d-xs-block d-none w-content mr-auto"></div>
     <Wallet class="d-xs-none" />
-    <el-switch
-      class="d-xs-none"
-      v-model="darkmode.isDarkMode"
-      active-action-icon="Moon"
-      inactive-action-icon="Sunny"
-    />
-    <Icon class="d-xs-none" name="Setting" title="Logout" @click="logout" />
+    <el-switch v-model="darkmode.isDarkMode" active-action-icon="Moon" inactive-action-icon="Sunny" />
+    <Icon name="Setting" title="Logout" @click="logout" />
     <span>{{ currentUser?.displayName }}</span>
     <el-avatar class="hv-cursor" :src="currentUser?.photoURL" title="Edit Profile" @click="editProfile" />
     <Icon class="d-xs-none" name="Right" title="Logout" @click="logout" />

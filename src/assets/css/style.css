@@ -9,9 +9,9 @@
   --w-sm: 300px;
   --w-md: 600px;
   --w-lg: 1200px;
-  --h-sm: 300px;
-  --h-md: 600px;
-  --h-lg: 1200px;
+  --h-sm: 100px;
+  --h-md: 250px;
+  --h-lg: 400px;
   --border-sm: .5px;
   --border-md: 1px;
   --border-lg: 3px;
@@ -35,7 +35,7 @@ ul {list-style: none;}
 input {font-size: inherit;}
 
 /* override */
-.card {margin-bottom: 20px;}
+.card {margin-bottom: 10px;}
 .card .el-card__header {display: flex;font-weight: bold;}
 .card .el-card__header .el-icon {margin-left: auto;}
 .el-select__wrapper {min-width: 100px;}
@@ -370,6 +370,14 @@ input {font-size: inherit;}
 
 .z-top {z-index: 999;}
 .z-back {z-index: -999;}
+
+.text-truncate {
+  max-width: 100% !important; 
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important; 
+}
 
 @media screen and (min-width: 1200px) and (max-width: 1919.9px) {
   .d-lg-flex {display: flex !important;}

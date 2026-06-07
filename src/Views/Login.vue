@@ -26,7 +26,7 @@ const login = async () => {
   <div class="min-h-screen d-grid grid-center">
     <el-card class="max-w-md mb-lg">
       <el-form :model="form" label-width="auto">
-        <el-form-item label="Username">
+        <el-form-item label="Email">
           <el-input v-model="form.email" clearable />
         </el-form-item>
         <el-form-item label="Password">

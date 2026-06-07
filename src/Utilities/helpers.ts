@@ -4,13 +4,15 @@ export interface Exception extends Error {
     code?: number
 }
 
+type ResponsiveOperators = ">" | ">=" | "<=" | "<";
+
 export function useException(message: string = "", code?: number): void {
     const err = new Error(message) as Exception;
     err.code = code ?? 0;
     throw err;
 }
 
-export function useConfig(key: string, def: any = null) {
+export function useConfig(key: string, def: any = null): any {
     const splitKeys = key.split(".");
 
     let constant: any = CONFIG;
@@ -41,5 +43,21 @@ export function useFormatPrice(value: string | number): string {
 export function useParsePrice(value: string): string {
     const numeric = String(value).replace(/,/g, '').trim();
     return numeric;
+}
+
+export function useResponsive(width: number, operator: ResponsiveOperators = "<"): boolean {
+    const screenWidth = window.innerWidth;
+    
+    switch (operator) {
+        case "<" : return screenWidth < width;
+        case "<=" : return screenWidth <= width;
+        case ">" : return screenWidth > width;
+        case ">=" : return screenWidth >= width;
+    }
+}
+
+export function useStrNormalize(string: string): string {
+    const captalStr = string[0] + (string.length > 2 ? string.slice(1) : "");
+    return captalStr;
 }
 

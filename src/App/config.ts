@@ -20,4 +20,15 @@ export default Object.freeze({
         8: "GBP"
     },
     MAX_USER: import.meta.env.VITE_MAX_USERS,
+    RESPONSIVE: {
+        XLARGE: 1920,
+        LARGE: 1200,
+        MID: 992,
+        SMALL: 768
+    },
+    MENU_LIST: [
+        { title: "Dashboard", route: 'dashboard', icon: "HomeFilled" },
+        { title: "User", route: 'user.list', icon: "UserFilled" },
+        { title: "Product", route: 'product.list', icon: "GoodsFilled" }
+    ]
 });
